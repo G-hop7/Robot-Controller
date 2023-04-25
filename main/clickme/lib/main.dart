@@ -75,34 +75,67 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Left Sonar:"
+                  ),),
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Right Sonar:"
+                  ),),]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
               Container(
-                width: 190,
+                width: 110,
                 height: 20,
                 decoration: BoxDecoration(
                   color: Colors.cyan,
                   borderRadius: BorderRadius.circular(20),
                   ),
-                  alignment: Alignment.center,
+                  alignment: Alignment.topCenter,
                   child: const Text(
-                  "example"
-                  //namesList[0],
-                  //  style: 
+                  "SONAR_L"
+                  ),),
+              Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(20),
                   ),
-              ),
-                const Icon(
-                  Icons.square,
-                  color: Color.fromARGB(255, 255, 0, 0)),
+                  alignment: Alignment.topCenter,
+                  child: const Text(
+                  "SONAR_R"
+                  //style: 
+                  ),),
+                //const Icon(
+                //  Icons.square,
+                //  color: Color.fromARGB(255, 255, 0, 0)),
         ]),
               FloatingActionButton(
                 onPressed: _incrementCounter,
                 tooltip: 'Increment',
                 child: const Icon(Icons.add),
                ),
-        ]),
-    );
+        
+    ]));
   }
 }
