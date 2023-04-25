@@ -63,12 +63,13 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-     _togglegrabber() {
-        grabber_state = true;
+     togglegrabber() {
         if (grabber_state) {
+          grabber_state = false;
           return "Up";
         }
-        if (grabber_state = false) {
+        else {
+          grabber_state = true;
           return "Down";
         }
         
@@ -225,7 +226,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   alignment: Alignment.topCenter,
                   child:  Text(
-                  _togglegrabber()
+                  togglegrabber()
                   ),),
               Container(
                 width: 110,
@@ -241,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),),
         ]),
               FloatingActionButton(
-              onPressed: _togglegrabber,
+              onPressed: togglegrabber(),
                 tooltip: 'Toggle_Grabber',
                 child: Icon(Icons.toggle_on),
                ),
