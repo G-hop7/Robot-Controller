@@ -48,7 +48,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  //functions here
   int _counter = 0;
+  bool grabber_state = false;
 
   void _incrementCounter() {
     setState(() {
@@ -59,6 +61,17 @@ class _MyHomePageState extends State<MyHomePage> {
       // called again, and so nothing would appear to happen.
       _counter++;
     });
+  }
+
+     _togglegrabber() {
+        grabber_state = true;
+        if (grabber_state) {
+          return "Up";
+        }
+        if (grabber_state = false) {
+          return "Down";
+        }
+        
   }
 
   void _decrementCounter() {
@@ -126,14 +139,111 @@ class _MyHomePageState extends State<MyHomePage> {
                   "SONAR_R"
                   //style: 
                   ),),
-                //const Icon(
-                //  Icons.square,
-                //  color: Color.fromARGB(255, 255, 0, 0)),
+                  ]),
+              Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Front Sonar:"
+                  ),),
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Color Sensor:"
+                  ),),]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: const Text(
+                  "SONAR_F"
+                  ),),
+              Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: const Text(
+                  "COLOR"
+                  //style: 
+                  ),),
+                  ]),
+              Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Grabber Status::"
+                  ),),
+            Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.center,
+                  child: const Text(
+                  "Commands Run:"
+                  ),),]),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.topCenter,
+                  child:  Text(
+                  _togglegrabber()
+                  ),),
+              Container(
+                width: 110,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: Colors.cyan,
+                  borderRadius: BorderRadius.circular(20),
+                  ),
+                  alignment: Alignment.topCenter,
+                  child: const Text(
+                  "COMMANDS"
+                  //style: 
+                  ),),
         ]),
               FloatingActionButton(
-                onPressed: _incrementCounter,
-                tooltip: 'Increment',
-                child: const Icon(Icons.add),
+              onPressed: _togglegrabber,
+                tooltip: 'Toggle_Grabber',
+                child: Icon(Icons.toggle_on),
                ),
         
     ]));
