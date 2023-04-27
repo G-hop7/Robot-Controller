@@ -1,4 +1,11 @@
+import 'dart:collection';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:network_info_plus/network_info_plus.dart';
+
+const int ourPort = 8888;
 
 void main() {
   runApp(const MyApp());
@@ -52,6 +59,12 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   bool grabber_state = false;
 
+  String ipAddr = "Awaiting IP Address...";
+  String incoming = "Setting up server...";
+  String otherMsg = "";
+
+  final Queue<String> _requests = Queue();
+
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
@@ -63,16 +76,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-     togglegrabber() {
-        if (grabber_state) {
-          grabber_state = false;
-          return "Up";
-        }
-        else {
-          grabber_state = true;
-          return "Down";
-        }
-        
+  togglegrabber() {
+    if (grabber_state) {
+      grabber_state = false;
+      return "Up";
+    } else {
+      grabber_state = true;
+      return "Down";
+    }
   }
 
   void _decrementCounter() {
@@ -81,172 +92,193 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  Future<void> _findIPAddress() async {
+    // Thank you https://stackoverflow.com/questions/52411168/how-to-get-device-ip-in-dart-flutter
+    String? ip = await NetworkInfo().getWifiIP();
+    setState(() {
+      ipAddr = "My IP: ${ip!}";
+    });
+  }
+
+  Future<void> _setupServer() async {
+    try {
+      ServerSocket server =
+          await ServerSocket.bind(InternetAddress.anyIPv4, ourPort);
+      server.listen(_listenToSocket); // StreamSubscription<Socket>
+      setState(() {
+        incoming = "Server ready";
+      });
+    } on SocketException catch (e) {
+      print("ServerSocket setup error: $e");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text("Error: $e"),
+      ));
+    }
+  }
+
+  void _listenToSocket(Socket socket) {
+    socket.listen((data) {
+      String msg = String.fromCharCodes(data);
+      print("received $msg");
+      if (msg == "cmd") {
+        if (_requests.isEmpty) {
+          socket.write("None");
+        } else {
+          socket.write(_requests.removeFirst());
+        }
+      }
+
+      socket.close();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        //crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        appBar: AppBar(
+          title: Text(widget.title),
+        ),
+        body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            //crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Left Sonar:"
-                  ),),
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Left Sonar:"),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Right Sonar:"
-                  ),),]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Right Sonar:"),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text(
-                  "SONAR_L"
-                  ),),
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("SONAR_L"),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text(
-                  "SONAR_R"
-                  //style: 
-                  ),),
-                  ]),
-              Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("SONAR_R"
+                      //style:
+                      ),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Front Sonar:"
-                  ),),
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Front Sonar:"),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Color Sensor:"
-                  ),),]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Color Sensor:"),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text(
-                  "SONAR_F"
-                  ),),
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("SONAR_F"),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text(
-                  "COLOR"
-                  //style: 
-                  ),),
-                  ]),
-              Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("COLOR"
+                      //style:
+                      ),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Grabber Status::"
-                  ),),
-            Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Grabber Status::"),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text(
-                  "Commands Run:"
-                  ),),]),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: const Text("Commands Run:"),
+                ),
+              ]),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child:  Text(
-                  togglegrabber()
-                  ),),
-              Container(
-                width: 110,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.cyan,
-                  borderRadius: BorderRadius.circular(20),
+                  child: Text(togglegrabber()),
+                ),
+                Container(
+                  width: 110,
+                  height: 20,
+                  decoration: BoxDecoration(
+                    color: Colors.cyan,
+                    borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text(
-                  "COMMANDS"
-                  //style: 
-                  ),),
-        ]),
+                  child: const Text("COMMANDS"
+                      //style:
+                      ),
+                ),
+              ]),
               FloatingActionButton(
-              onPressed: togglegrabber(),
+                onPressed: togglegrabber(),
                 tooltip: 'Toggle_Grabber',
                 child: Icon(Icons.toggle_on),
-               ),
-        
-    ]));
+              ),
+            ]));
   }
 }
