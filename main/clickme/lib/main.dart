@@ -63,6 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
   String incoming = "Setting up server...";
   String otherMsg = "";
 
+  String leftSonar = "";
+  String rightSonar = "";
+  String fronttSonar = "";
+  String grabberState = "";
+  String colorState = "";
+
   final Queue<String> _requests = Queue();
 
   void _incrementCounter() {
@@ -120,7 +126,7 @@ class _MyHomePageState extends State<MyHomePage> {
     socket.listen((data) {
       String msg = String.fromCharCodes(data);
       print("received $msg");
-      if (msg == "cmd") {
+      if (msg != "Error") {
         if (_requests.isEmpty) {
           socket.write("None");
         } else {
