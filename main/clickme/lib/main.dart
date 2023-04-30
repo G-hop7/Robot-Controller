@@ -177,6 +177,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Right Sonar:"),
                 ),
               ]),
+              Container(
+                  width: 25,
+                  height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -201,6 +204,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                 ),
               ]),
+              Container(
+                  width: 25,
+                  height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -221,6 +227,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Color Sensor:"),
                 ),
               ]),
+              Container(
+                  width: 25,
+                  height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -245,6 +254,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                 ),
               ]),
+              Container(
+                  width: 25,
+                  height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -253,7 +265,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text("Grabber Status::"),
+                  child: const Text("Grabber Status:"),
                 ),
                 Container(
                   width: 110,
@@ -265,6 +277,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Commands Run:"),
                 ),
               ]),
+              Container(
+                  width: 25,
+                  height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -290,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),]),
               Container(
                   width: 300,
-                  height: 200,),
+                  height: 200),
               FloatingActionButton(
                 onPressed: goforward,
                 tooltip: 'Go_Forward',
@@ -298,7 +313,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(
                   width: 25,
-                  height: 25,),
+                  height: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center, children: [
                   FloatingActionButton(
@@ -308,7 +323,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                   width: 25,
-                  height: 25,),
+                  height: 25),
                   FloatingActionButton(
                     onPressed: togglegrabber,
                     tooltip: 'Toggle_Grabber',
@@ -316,7 +331,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Container(
                   width: 25,
-                  height: 25,),
+                  height: 25),
                   FloatingActionButton(
                     onPressed: rightturn,
                     tooltip: 'Turn_Right',
@@ -324,7 +339,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     )]),
               Container(
                 width: 25,
-                height: 25,),
+                height: 25),
               FloatingActionButton(
                 onPressed: gobackward,
                 tooltip: 'Go_Backward',
