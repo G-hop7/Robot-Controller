@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         // or simply save your changes to "hot reload" in a Flutter IDE).
         // Notice that the counter didn't reset back to zero; the application
         // is not restarted.
-        primarySwatch: Colors.red,
+        primarySwatch: Colors.grey,
       ),
       home: const MyHomePage(title: 'Robot Controller'),
     );
@@ -185,7 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
@@ -195,7 +195,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
@@ -235,7 +235,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
@@ -245,7 +245,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
@@ -295,11 +295,11 @@ class _MyHomePageState extends State<MyHomePage> {
                   width: 110,
                   height: 20,
                   decoration: BoxDecoration(
-                    color: Colors.cyan,
+                    color: Color.fromARGB(255, 255, 183, 59),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("COMMANDS"
+                  child: const Text("Device IP"
                       //style:
                       ),
                       ),]),
