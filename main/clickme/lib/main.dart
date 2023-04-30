@@ -91,6 +91,12 @@ class _MyHomePageState extends State<MyHomePage> {
       return "Down";
     }
   }
+  
+   @override
+  void initState() {
+    super.initState();
+    _findIPAddress();
+  }
 
   goforward() {}
 
@@ -111,7 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // Thank you https://stackoverflow.com/questions/52411168/how-to-get-device-ip-in-dart-flutter
     String? ip = await NetworkInfo().getWifiIP();
     setState(() {
-      ipAddr = "My IP: ${ip!}";
+      ipAddr = ip!;
     });
   }
 
@@ -274,7 +280,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.center,
-                  child: const Text("Commands Run:"),
+                  child: const Text("Device IP:"),
                 ),
               ]),
               Container(
@@ -299,7 +305,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("Device IP"
+                  child: Text(ipAddr
                       //style:
                       ),
                       ),]),
