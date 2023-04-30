@@ -92,6 +92,15 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  goforward() {}
+
+  gobackward() {}
+
+  leftturn() {}
+
+  rightturn() {}
+
+
   void _decrementCounter() {
     setState(() {
       _counter--;
@@ -278,13 +287,36 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("COMMANDS"
                       //style:
                       ),
-                ),
-              ]),
+                      ),]),
+              Container(
+                  width: 300,
+                  height: 200,),
               FloatingActionButton(
-                onPressed: togglegrabber(),
-                tooltip: 'Toggle_Grabber',
-                child: Icon(Icons.toggle_on),
-              ),
-            ]));
-  }
+                onPressed: goforward,
+                tooltip: 'Go_Forward',
+                child: const Icon(Icons.arrow_circle_up),
+                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center, children: [
+                  FloatingActionButton(
+                    onPressed: leftturn,
+                    tooltip: 'Turn_Left',
+                    child: const Icon(Icons.arrow_circle_left),
+                  ),
+                  FloatingActionButton(
+                    onPressed: togglegrabber,
+                    tooltip: 'Toggle_Grabber',
+                    child: const Icon(Icons.toggle_on),
+                  ),
+                  FloatingActionButton(
+                    onPressed: rightturn,
+                    tooltip: 'Turn_Right',
+                    child: const Icon(Icons.arrow_circle_right),
+                    )]),
+              FloatingActionButton(
+                onPressed: gobackward,
+                tooltip: 'Go_Backward',
+                child: const Icon(Icons.arrow_circle_down),
+                ),
+]));}
 }
