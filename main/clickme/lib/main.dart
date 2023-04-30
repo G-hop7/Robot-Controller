@@ -296,6 +296,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Go_Forward',
                 child: const Icon(Icons.arrow_circle_up),
                 ),
+                Container(
+                  width: 25,
+                  height: 25,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center, children: [
                   FloatingActionButton(
@@ -303,16 +306,25 @@ class _MyHomePageState extends State<MyHomePage> {
                     tooltip: 'Turn_Left',
                     child: const Icon(Icons.arrow_circle_left),
                   ),
+                  Container(
+                  width: 25,
+                  height: 25,),
                   FloatingActionButton(
                     onPressed: togglegrabber,
                     tooltip: 'Toggle_Grabber',
                     child: const Icon(Icons.toggle_on),
                   ),
+                  Container(
+                  width: 25,
+                  height: 25,),
                   FloatingActionButton(
                     onPressed: rightturn,
                     tooltip: 'Turn_Right',
                     child: const Icon(Icons.arrow_circle_right),
                     )]),
+              Container(
+                width: 25,
+                height: 25,),
               FloatingActionButton(
                 onPressed: gobackward,
                 tooltip: 'Go_Backward',
