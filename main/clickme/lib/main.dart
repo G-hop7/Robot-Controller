@@ -137,9 +137,9 @@ class _MyHomePageState extends State<MyHomePage> {
       print("received $msg");
       socket.write(request);
       request = "None";
+      socket.close();
       otherMsg = msg.split(",");
       _parseMessage();
-      socket.close();
     });
   }
 
