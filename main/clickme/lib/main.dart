@@ -97,6 +97,10 @@ class _MyHomePageState extends State<MyHomePage> {
     request = "Right";
   }
 
+  stop() {
+    request = "Stop";
+  }
+
   void _decrementCounter() {
     setState(() {
       _counter--;
@@ -305,9 +309,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 Container(width: 25, height: 25),
                 FloatingActionButton(
-                  onPressed: togglegrabber,
-                  tooltip: 'Toggle_Grabber',
-                  child: const Icon(Icons.toggle_on),
+                  onPressed: stop,
+                  tooltip: 'Stop',
+                  child: const Icon(Icons.stop_circle),
                 ),
                 Container(width: 25, height: 25),
                 FloatingActionButton(
@@ -321,6 +325,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 onPressed: gobackward,
                 tooltip: 'Go_Backward',
                 child: const Icon(Icons.arrow_circle_down),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                Container(
+                height: 25,
+                width: 250),
+                FloatingActionButton(
+                onPressed: togglegrabber,
+                tooltip: 'Toggle_Grabber',
+                child: const Icon(Icons.toggle_on),
+                )]
               ),
             ]));
   }
