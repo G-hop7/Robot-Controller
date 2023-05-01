@@ -57,11 +57,10 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   //functions here
   int _counter = 0;
-  bool grabber_state = false;
 
   String ipAddr = "Awaiting IP Address...";
   String incoming = "Setting up server...";
-  String otherMsg = "";
+  List<String> otherMsg = [];
 
   String leftSonar = "";
   String rightSonar = "";
@@ -69,43 +68,34 @@ class _MyHomePageState extends State<MyHomePage> {
   String grabberState = "";
   String colorState = "";
 
-  final Queue<String> _requests = Queue();
+  String request = "None";
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  togglegrabber() {
-    if (grabber_state) {
-      grabber_state = false;
-      return "Up";
-    } else {
-      grabber_state = true;
-      return "Down";
-    }
-  }
-  
-   @override
+  @override
   void initState() {
     super.initState();
+    _setupServer();
     _findIPAddress();
   }
 
-  goforward() {}
+  togglegrabber() {
+    request = "Grab";
+  }
 
-  gobackward() {}
+  goforward() {
+    request = "Forward";
+  }
 
-  leftturn() {}
+  gobackward() {
+    request = "Backward";
+  }
 
-  rightturn() {}
+  leftturn() {
+    request = "Left";
+  }
 
+  rightturn() {
+    request = "Right";
+  }
 
   void _decrementCounter() {
     setState(() {
@@ -141,15 +131,21 @@ class _MyHomePageState extends State<MyHomePage> {
     socket.listen((data) {
       String msg = String.fromCharCodes(data);
       print("received $msg");
-      if (msg != "Error") {
-        if (_requests.isEmpty) {
-          socket.write("None");
-        } else {
-          socket.write(_requests.removeFirst());
-        }
-      }
-
+      socket.write(request);
+      request = "None";
       socket.close();
+      otherMsg = msg.split(",");
+      _parseMessage();
+    });
+  }
+
+  void _parseMessage() {
+    setState(() {
+      fronttSonar = otherMsg[0];
+      leftSonar = otherMsg[1];
+      rightSonar = otherMsg[2];
+      grabberState = otherMsg[3];
+      colorState = otherMsg[4];
     });
   }
 
@@ -183,9 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Right Sonar:"),
                 ),
               ]),
-              Container(
-                  width: 25,
-                  height: 25),
+              Container(width: 25, height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -195,7 +189,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("SONAR_L"),
+                  child: Text(leftSonar),
                 ),
                 Container(
                   width: 110,
@@ -205,14 +199,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("SONAR_R"
-                      //style:
-                      ),
+                  child: Text(rightSonar),
                 ),
               ]),
-              Container(
-                  width: 25,
-                  height: 25),
+              Container(width: 25, height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -233,9 +223,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Color Sensor:"),
                 ),
               ]),
-              Container(
-                  width: 25,
-                  height: 25),
+              Container(width: 25, height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -245,7 +233,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("SONAR_F"),
+                  child: Text(fronttSonar),
                 ),
                 Container(
                   width: 110,
@@ -255,14 +243,10 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: const Text("COLOR"
-                      //style:
-                      ),
+                  child: Text(colorState),
                 ),
               ]),
-              Container(
-                  width: 25,
-                  height: 25),
+              Container(width: 25, height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -283,9 +267,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: const Text("Device IP:"),
                 ),
               ]),
-              Container(
-                  width: 25,
-                  height: 25),
+              Container(width: 25, height: 25),
               Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
                 Container(
                   width: 110,
@@ -295,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: Text(togglegrabber()),
+                  child: Text(grabberState),
                 ),
                 Container(
                   width: 110,
@@ -305,51 +287,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(20),
                   ),
                   alignment: Alignment.topCenter,
-                  child: Text(ipAddr
-                      //style:
-                      ),
-                      ),]),
-              Container(
-                  width: 300,
-                  height: 200),
+                  child: Text(ipAddr),
+                ),
+              ]),
+              Container(width: 300, height: 200),
               FloatingActionButton(
                 onPressed: goforward,
                 tooltip: 'Go_Forward',
                 child: const Icon(Icons.arrow_circle_up),
+              ),
+              Container(width: 25, height: 25),
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                FloatingActionButton(
+                  onPressed: leftturn,
+                  tooltip: 'Turn_Left',
+                  child: const Icon(Icons.arrow_circle_left),
                 ),
-                Container(
-                  width: 25,
-                  height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center, children: [
-                  FloatingActionButton(
-                    onPressed: leftturn,
-                    tooltip: 'Turn_Left',
-                    child: const Icon(Icons.arrow_circle_left),
-                  ),
-                  Container(
-                  width: 25,
-                  height: 25),
-                  FloatingActionButton(
-                    onPressed: togglegrabber,
-                    tooltip: 'Toggle_Grabber',
-                    child: const Icon(Icons.toggle_on),
-                  ),
-                  Container(
-                  width: 25,
-                  height: 25),
-                  FloatingActionButton(
-                    onPressed: rightturn,
-                    tooltip: 'Turn_Right',
-                    child: const Icon(Icons.arrow_circle_right),
-                    )]),
-              Container(
-                width: 25,
-                height: 25),
+                Container(width: 25, height: 25),
+                FloatingActionButton(
+                  onPressed: togglegrabber,
+                  tooltip: 'Toggle_Grabber',
+                  child: const Icon(Icons.toggle_on),
+                ),
+                Container(width: 25, height: 25),
+                FloatingActionButton(
+                  onPressed: rightturn,
+                  tooltip: 'Turn_Right',
+                  child: const Icon(Icons.arrow_circle_right),
+                )
+              ]),
+              Container(width: 25, height: 25),
               FloatingActionButton(
                 onPressed: gobackward,
                 tooltip: 'Go_Backward',
                 child: const Icon(Icons.arrow_circle_down),
-                ),
-]));}
+              ),
+            ]));
+  }
 }
