@@ -334,7 +334,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                 Container(
                 height: 25,
-                width: 280),
+                width: 300),
                 FloatingActionButton(
                 onPressed: togglegrabber,
                 tooltip: 'Toggle_Grabber',
