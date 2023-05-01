@@ -326,12 +326,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 tooltip: 'Go_Backward',
                 child: const Icon(Icons.arrow_circle_down),
               ),
+              Container(
+                height: 25,
+                width: 25),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                 Container(
                 height: 25,
-                width: 250),
+                width: 280),
                 FloatingActionButton(
                 onPressed: togglegrabber,
                 tooltip: 'Toggle_Grabber',
